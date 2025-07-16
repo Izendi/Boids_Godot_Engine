@@ -1,0 +1,74 @@
+[gd_scene load_steps=13 format=3 uid="uid://b1bdq31bmt0aj"]
+
+[ext_resource type="Script" uid="uid://bfyrplyfu12es" path="res://mouse_vec.gd" id="1_jhmk0"]
+[ext_resource type="Shader" uid="uid://b2mvvw2m67xn" path="res://basicBoid.gdshader" id="1_socxo"]
+[ext_resource type="Script" uid="uid://dlng3tkkuepoh" path="res://boid_rigid_body_3d.gd" id="1_swv62"]
+[ext_resource type="Script" uid="uid://b2x4rvidalguo" path="res://mouse_capture.gd" id="2_jeqo5"]
+[ext_resource type="Shader" uid="uid://pvlscw6weac5" path="res://MouseSphere.gdshader" id="5_83res"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_83res"]
+render_priority = 0
+shader = ExtResource("1_socxo")
+shader_parameter/sphere_center = Vector3(0, 0, 0)
+shader_parameter/light_dir = Vector3(0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_swv62"]
+render_priority = 0
+shader = ExtResource("1_socxo")
+shader_parameter/sphere_center = Vector3(0, 0, 0)
+shader_parameter/light_dir = Vector3(0, 0, 0)
+
+[sub_resource type="SphereMesh" id="SphereMesh_jeqo5"]
+material = SubResource("ShaderMaterial_swv62")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_socxo"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_swv62"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_57fq0"]
+render_priority = 0
+shader = ExtResource("5_83res")
+
+[sub_resource type="SphereMesh" id="SphereMesh_socxo"]
+material = SubResource("ShaderMaterial_57fq0")
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Main" type="Node" parent="."]
+
+[node name="Boid_RigidBody3D" type="RigidBody3D" parent="Main"]
+gravity_scale = 0.0
+script = ExtResource("1_swv62")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Main/Boid_RigidBody3D"]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
+material_override = SubResource("ShaderMaterial_83res")
+mesh = SubResource("SphereMesh_jeqo5")
+
+[node name="Area3D" type="Area3D" parent="Main/Boid_RigidBody3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Main/Boid_RigidBody3D/Area3D"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+shape = SubResource("SphereShape3D_socxo")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Main/Boid_RigidBody3D"]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
+shape = SubResource("SphereShape3D_swv62")
+
+[node name="MouseVec" type="Node3D" parent="Main/Boid_RigidBody3D"]
+script = ExtResource("1_jhmk0")
+
+[node name="MouseCapture" type="Node3D" parent="Main" node_paths=PackedStringArray("mouseSphere", "camera")]
+script = ExtResource("2_jeqo5")
+mouseSphere = NodePath("../MouseSphere")
+camera = NodePath("../Camera3D")
+
+[node name="Camera3D" type="Camera3D" parent="Main"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 2, 0, 0)
+current = true
+
+[node name="MouseSphere" type="Node3D" parent="Main"]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, -1)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Main/MouseSphere"]
+mesh = SubResource("SphereMesh_socxo")
