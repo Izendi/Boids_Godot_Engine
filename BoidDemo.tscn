@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://b1bdq31bmt0aj"]
+[gd_scene load_steps=12 format=3 uid="uid://b1bdq31bmt0aj"]
 
 [ext_resource type="PackedScene" uid="uid://cd6bhy8pe3o72" path="res://boid_master.tscn" id="1_83res"]
 [ext_resource type="Script" uid="uid://b2x4rvidalguo" path="res://mouse_capture.gd" id="2_jeqo5"]
@@ -12,6 +12,18 @@ shader = ExtResource("5_83res")
 
 [sub_resource type="SphereMesh" id="SphereMesh_socxo"]
 material = SubResource("ShaderMaterial_57fq0")
+
+[sub_resource type="BoxMesh" id="BoxMesh_83res"]
+size = Vector3(1, 4, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_57fq0"]
+size = Vector3(1, 4, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_57fq0"]
+size = Vector3(1, 1, 6)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jfwh7"]
+size = Vector3(1, 1, 6)
 
 [node name="Node3D" type="Node3D"]
 
@@ -27,13 +39,54 @@ camera = NodePath("../Camera3D")
 
 [node name="Camera3D" type="Camera3D" parent="Main"]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 2, 0, 0)
+projection = 1
 current = true
+size = 3.2
+far = 84.14
 
 [node name="MouseSphere" type="Node3D" parent="Main"]
 transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, -1)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Main/MouseSphere"]
 mesh = SubResource("SphereMesh_socxo")
+
+[node name="Borders" type="Node3D" parent="Main"]
+
+[node name="left" type="StaticBody3D" parent="Main/Borders"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.3)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Main/Borders/left"]
+mesh = SubResource("BoxMesh_83res")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Main/Borders/left"]
+shape = SubResource("BoxShape3D_57fq0")
+
+[node name="right" type="StaticBody3D" parent="Main/Borders"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.3)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Main/Borders/right"]
+mesh = SubResource("BoxMesh_83res")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Main/Borders/right"]
+shape = SubResource("BoxShape3D_57fq0")
+
+[node name="top" type="StaticBody3D" parent="Main/Borders"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.05, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Main/Borders/top"]
+mesh = SubResource("BoxMesh_57fq0")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Main/Borders/top"]
+shape = SubResource("BoxShape3D_jfwh7")
+
+[node name="bottom" type="StaticBody3D" parent="Main/Borders"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.05, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Main/Borders/bottom"]
+mesh = SubResource("BoxMesh_57fq0")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Main/Borders/bottom"]
+shape = SubResource("BoxShape3D_jfwh7")
 
 [node name="Global_Script_Data" type="Node" parent="Main"]
 
@@ -42,3 +95,5 @@ script = ExtResource("7_jfwh7")
 
 [node name="Payload" type="Node" parent="Main/Global_Script_Data"]
 script = ExtResource("8_qdcu6")
+
+[editable path="Main/Boid_Master"]

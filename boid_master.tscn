@@ -1,9 +1,11 @@
 [gd_scene load_steps=10 format=3 uid="uid://cd6bhy8pe3o72"]
 
-[ext_resource type="Script" uid="uid://dlng3tkkuepoh" path="res://boid_rigid_body_3d.gd" id="1_qvlag"]
+[ext_resource type="Script" uid="uid://dlng3tkkuepoh" path="res://boid_body_3d.gd" id="1_qvlag"]
 [ext_resource type="Shader" uid="uid://b2mvvw2m67xn" path="res://basicBoid.gdshader" id="2_86sr0"]
 [ext_resource type="Script" uid="uid://bp628sfgcij2k" path="res://vector_mesh.gd" id="3_265q4"]
 [ext_resource type="Script" uid="uid://rua3em23smjx" path="res://forward_vector_mesh.gd" id="4_unt2n"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_swv62"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_83res"]
 render_priority = 0
@@ -22,11 +24,12 @@ material = SubResource("ShaderMaterial_swv62")
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_socxo"]
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_swv62"]
-
-[node name="Boid_RigidBody3D" type="RigidBody3D"]
-gravity_scale = 0.0
+[node name="Boid_Body3D" type="CharacterBody3D"]
 script = ExtResource("1_qvlag")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
+shape = SubResource("SphereShape3D_swv62")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
@@ -44,9 +47,5 @@ script = ExtResource("4_unt2n")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 shape = SubResource("SphereShape3D_socxo")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
-shape = SubResource("SphereShape3D_swv62")
 
 [node name="MouseVec" type="Node3D" parent="."]

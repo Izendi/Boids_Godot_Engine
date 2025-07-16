@@ -30,6 +30,10 @@ func _physics_process(delta):
 	MouseSphere_world_pos = MouseSphere.global_transform.origin.normalized()
 	
 	var t = delta * rotationSpeed
+	
+	ForwardVector.x = 0.0
+	MouseSphere_world_pos.x = 0.0
+	
 	ForwardVector = ForwardVector.slerp(MouseSphere_world_pos, t)
 	
 	var start: Vector3 = get_parent().global_transform.origin
