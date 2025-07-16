@@ -10,7 +10,7 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _physics_process(delta):
+func _physics_process(_delta):
 	shader_mat.set_shader_parameter("sphere_center", global_transform.origin)
 	
 	lightDir = lightDir.rotated(Vector3.UP, deg_to_rad(1))

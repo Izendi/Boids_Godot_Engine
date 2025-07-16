@@ -14,14 +14,14 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _physics_process(delta):
+func _physics_process(_delta):
 	vectorMesh.clear_surfaces()
 	vectorMesh.surface_begin(Mesh.PRIMITIVE_LINES) # Begin recording vectors that will make up the line/lines
 	
 	MouseSphere_world_pos = MouseSphere.global_transform.origin
 	
 	var start: Vector3 = get_parent().global_transform.origin
-	var end = start + (MouseSphere_world_pos.normalized() * 1.0) # 3 units forward in local space
+	var end = start + (MouseSphere_world_pos.normalized() * 0.5) # 3 units forward in local space
 	
 	vectorMesh.surface_add_vertex(start)
 	vectorMesh.surface_add_vertex(end)

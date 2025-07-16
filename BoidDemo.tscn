@@ -1,9 +1,10 @@
-[gd_scene load_steps=13 format=3 uid="uid://b1bdq31bmt0aj"]
+[gd_scene load_steps=14 format=3 uid="uid://b1bdq31bmt0aj"]
 
 [ext_resource type="Shader" uid="uid://b2mvvw2m67xn" path="res://basicBoid.gdshader" id="1_socxo"]
 [ext_resource type="Script" uid="uid://dlng3tkkuepoh" path="res://boid_rigid_body_3d.gd" id="1_swv62"]
 [ext_resource type="Script" uid="uid://b2x4rvidalguo" path="res://mouse_capture.gd" id="2_jeqo5"]
 [ext_resource type="Script" uid="uid://bp628sfgcij2k" path="res://vector_mesh.gd" id="3_57fq0"]
+[ext_resource type="Script" uid="uid://rua3em23smjx" path="res://forward_vector_mesh.gd" id="4_57fq0"]
 [ext_resource type="Shader" uid="uid://pvlscw6weac5" path="res://MouseSphere.gdshader" id="5_83res"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_83res"]
@@ -47,6 +48,10 @@ mesh = SubResource("SphereMesh_jeqo5")
 
 [node name="vectorMesh" type="MeshInstance3D" parent="Main/Boid_RigidBody3D" node_paths=PackedStringArray("MouseSphere")]
 script = ExtResource("3_57fq0")
+MouseSphere = NodePath("../../MouseSphere")
+
+[node name="ForwardVectorMesh" type="MeshInstance3D" parent="Main/Boid_RigidBody3D" node_paths=PackedStringArray("MouseSphere")]
+script = ExtResource("4_57fq0")
 MouseSphere = NodePath("../../MouseSphere")
 
 [node name="Area3D" type="Area3D" parent="Main/Boid_RigidBody3D"]
