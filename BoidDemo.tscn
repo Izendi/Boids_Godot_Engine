@@ -1,30 +1,10 @@
-[gd_scene load_steps=14 format=3 uid="uid://b1bdq31bmt0aj"]
+[gd_scene load_steps=8 format=3 uid="uid://b1bdq31bmt0aj"]
 
-[ext_resource type="Shader" uid="uid://b2mvvw2m67xn" path="res://basicBoid.gdshader" id="1_socxo"]
-[ext_resource type="Script" uid="uid://dlng3tkkuepoh" path="res://boid_rigid_body_3d.gd" id="1_swv62"]
+[ext_resource type="PackedScene" uid="uid://cd6bhy8pe3o72" path="res://boid_master.tscn" id="1_83res"]
 [ext_resource type="Script" uid="uid://b2x4rvidalguo" path="res://mouse_capture.gd" id="2_jeqo5"]
-[ext_resource type="Script" uid="uid://bp628sfgcij2k" path="res://vector_mesh.gd" id="3_57fq0"]
-[ext_resource type="Script" uid="uid://rua3em23smjx" path="res://forward_vector_mesh.gd" id="4_57fq0"]
 [ext_resource type="Shader" uid="uid://pvlscw6weac5" path="res://MouseSphere.gdshader" id="5_83res"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_83res"]
-render_priority = 0
-shader = ExtResource("1_socxo")
-shader_parameter/sphere_center = Vector3(0, 0, 0)
-shader_parameter/light_dir = Vector3(0, 0, 0)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_swv62"]
-render_priority = 0
-shader = ExtResource("1_socxo")
-shader_parameter/sphere_center = Vector3(0, 0, 0)
-shader_parameter/light_dir = Vector3(0, 0, 0)
-
-[sub_resource type="SphereMesh" id="SphereMesh_jeqo5"]
-material = SubResource("ShaderMaterial_swv62")
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_socxo"]
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_swv62"]
+[ext_resource type="Script" uid="uid://ch3dblwq8rpu3" path="res://BoidDataStruct.gd" id="7_jfwh7"]
+[ext_resource type="Script" uid="uid://dwmge2tfwfexd" path="res://payload.gd" id="8_qdcu6"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_57fq0"]
 render_priority = 0
@@ -37,34 +17,8 @@ material = SubResource("ShaderMaterial_57fq0")
 
 [node name="Main" type="Node" parent="."]
 
-[node name="Boid_RigidBody3D" type="RigidBody3D" parent="Main"]
-gravity_scale = 0.0
-script = ExtResource("1_swv62")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Main/Boid_RigidBody3D"]
-transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
-material_override = SubResource("ShaderMaterial_83res")
-mesh = SubResource("SphereMesh_jeqo5")
-
-[node name="vectorMesh" type="MeshInstance3D" parent="Main/Boid_RigidBody3D" node_paths=PackedStringArray("MouseSphere")]
-script = ExtResource("3_57fq0")
-MouseSphere = NodePath("../../MouseSphere")
-
-[node name="ForwardVectorMesh" type="MeshInstance3D" parent="Main/Boid_RigidBody3D" node_paths=PackedStringArray("MouseSphere")]
-script = ExtResource("4_57fq0")
-MouseSphere = NodePath("../../MouseSphere")
-
-[node name="Area3D" type="Area3D" parent="Main/Boid_RigidBody3D"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Main/Boid_RigidBody3D/Area3D"]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
-shape = SubResource("SphereShape3D_socxo")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Main/Boid_RigidBody3D"]
-transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
-shape = SubResource("SphereShape3D_swv62")
-
-[node name="MouseVec" type="Node3D" parent="Main/Boid_RigidBody3D"]
+[node name="Boid_Master" parent="Main" node_paths=PackedStringArray("MouseSphere") instance=ExtResource("1_83res")]
+MouseSphere = NodePath("../MouseSphere")
 
 [node name="MouseCapture" type="Node3D" parent="Main" node_paths=PackedStringArray("mouseSphere", "camera")]
 script = ExtResource("2_jeqo5")
@@ -80,3 +34,11 @@ transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, -1)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Main/MouseSphere"]
 mesh = SubResource("SphereMesh_socxo")
+
+[node name="Global_Script_Data" type="Node" parent="Main"]
+
+[node name="BoidDataStruct" type="Node" parent="Main/Global_Script_Data"]
+script = ExtResource("7_jfwh7")
+
+[node name="Payload" type="Node" parent="Main/Global_Script_Data"]
+script = ExtResource("8_qdcu6")

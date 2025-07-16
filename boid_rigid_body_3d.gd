@@ -4,9 +4,16 @@ extends RigidBody3D
 @onready var mesh_node := $MeshInstance3D
 @export var lightDir: Vector3 = Vector3(0.8, 1.0, -0.5)
 
+@onready var vector_mesh = $vectorMesh
+@onready var forward_vector_mesh = $ForwardVectorMesh
+
+@export var MouseSphere: Node3D
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	if MouseSphere:
+		vector_mesh.MouseSphere = MouseSphere
+		forward_vector_mesh.MouseSphere = MouseSphere;
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
