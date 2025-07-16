@@ -1,9 +1,9 @@
 [gd_scene load_steps=13 format=3 uid="uid://b1bdq31bmt0aj"]
 
-[ext_resource type="Script" uid="uid://bfyrplyfu12es" path="res://mouse_vec.gd" id="1_jhmk0"]
 [ext_resource type="Shader" uid="uid://b2mvvw2m67xn" path="res://basicBoid.gdshader" id="1_socxo"]
 [ext_resource type="Script" uid="uid://dlng3tkkuepoh" path="res://boid_rigid_body_3d.gd" id="1_swv62"]
 [ext_resource type="Script" uid="uid://b2x4rvidalguo" path="res://mouse_capture.gd" id="2_jeqo5"]
+[ext_resource type="Script" uid="uid://bp628sfgcij2k" path="res://vector_mesh.gd" id="3_57fq0"]
 [ext_resource type="Shader" uid="uid://pvlscw6weac5" path="res://MouseSphere.gdshader" id="5_83res"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_83res"]
@@ -45,6 +45,10 @@ transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
 material_override = SubResource("ShaderMaterial_83res")
 mesh = SubResource("SphereMesh_jeqo5")
 
+[node name="vectorMesh" type="MeshInstance3D" parent="Main/Boid_RigidBody3D" node_paths=PackedStringArray("MouseSphere")]
+script = ExtResource("3_57fq0")
+MouseSphere = NodePath("../../MouseSphere")
+
 [node name="Area3D" type="Area3D" parent="Main/Boid_RigidBody3D"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Main/Boid_RigidBody3D/Area3D"]
@@ -56,7 +60,6 @@ transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
 shape = SubResource("SphereShape3D_swv62")
 
 [node name="MouseVec" type="Node3D" parent="Main/Boid_RigidBody3D"]
-script = ExtResource("1_jhmk0")
 
 [node name="MouseCapture" type="Node3D" parent="Main" node_paths=PackedStringArray("mouseSphere", "camera")]
 script = ExtResource("2_jeqo5")
