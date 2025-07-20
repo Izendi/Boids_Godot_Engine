@@ -12,12 +12,14 @@ render_priority = 0
 shader = ExtResource("2_86sr0")
 shader_parameter/sphere_center = Vector3(0, 0, 0)
 shader_parameter/light_dir = Vector3(0, 0, 0)
+shader_parameter/surface_color = Vector3(0, 0, 0)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_swv62"]
 render_priority = 0
 shader = ExtResource("2_86sr0")
 shader_parameter/sphere_center = Vector3(0, 0, 0)
 shader_parameter/light_dir = Vector3(0, 0, 0)
+shader_parameter/surface_color = Vector3(0, 0, 0)
 
 [sub_resource type="SphereMesh" id="SphereMesh_jeqo5"]
 material = SubResource("ShaderMaterial_swv62")

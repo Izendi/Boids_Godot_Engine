@@ -2,6 +2,7 @@ extends CharacterBody3D
 
 @onready var shader_mat := $MeshInstance3D.material_override as ShaderMaterial
 @onready var mesh_node := $MeshInstance3D
+@onready var surface_color := Vector3(0.5, 0.1, 0.1)
 @export var lightDir: Vector3 = Vector3(0.8, 1.0, -0.5)
 
 @onready var vector_mesh = $vectorMesh
@@ -11,12 +12,32 @@ extends CharacterBody3D
 
 @export var acceleration: float = 1.0
 
+var forwardVector: Vector3 = Vector3(0.0, 0.0, 0.0)
+
+var area3D_Node
+
+signal nearbyBoidDetected
+
+func _on_area_entered(area: Area3D):
+	surface_color = Vector3(1.0, 1.0, 1.0)
+
+func _on_area_exited(area: Area3D):
+	surface_color = Vector3(0.5, 0.1, 0.1)
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	area3D_Node = $Area3D
+	area3D_Node.connect("on_boid_enter_domain", Callable(self, "_on_area_entered"))
+	area3D_Node.connect("on_boid_exit_domain", Callable(self, "_on_area_exited"))
+	
 	if MouseSphere:
 		vector_mesh.MouseSphere = MouseSphere
 		forward_vector_mesh.MouseSphere = MouseSphere;
+		forward_vector_mesh.connect("fedVecUpdated", Callable(self, "_on_fwdVec_updated"))
 
+func _on_fwdVec_updated(fwdVec: Vector3):
+	forwardVector = fwdVec
+	print("Got value fwdVec: ", fwdVec)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
@@ -25,10 +46,11 @@ func _physics_process(delta):
 	lightDir = lightDir.rotated(Vector3.UP, deg_to_rad(1))
 	
 	shader_mat.set_shader_parameter("light_dir", lightDir)
+	shader_mat.set_shader_parameter("surface_color", surface_color)
 	
-	var fwv: Vector3 = forward_vector_mesh.ForwardVector
+	var fwv: Vector3 = forwardVector
 	
-	var delta_v = fwv * acceleration * delta
+	# var delta_v = fwv * acceleration * delta
 	
 	if Input.is_action_pressed("left_mouse_click"):
 		velocity = fwv

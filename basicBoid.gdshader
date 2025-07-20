@@ -5,6 +5,7 @@ varying vec3 world_pos;
 
 uniform vec3 sphere_center;
 uniform vec3 light_dir;
+uniform vec3 surface_color;
 
 void vertex() 
 {
@@ -22,7 +23,7 @@ void fragment()
 	
 	light = max(light, 0.3);
 	
-	ALBEDO = vec3(1.0, 0.5, 0.3) * light;
+	ALBEDO = surface_color * light;
 }
 
 //void light() {

@@ -10,6 +10,8 @@ var vectorMesh: ImmediateMesh = ImmediateMesh.new()
 
 var ForwardVector: Vector3 = Vector3.FORWARD.normalized()
 
+signal fedVecUpdated(new_fwd_vec)
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# Assign the mesh to this MeshInstance3D
@@ -24,24 +26,35 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
+	
+	if MouseSphere == null:
+		return
+	
 	vectorMesh.clear_surfaces()
 	vectorMesh.surface_begin(Mesh.PRIMITIVE_LINES) # Begin recording vectors that will make up the line/lines
 	
-	MouseSphere_world_pos = MouseSphere.global_transform.origin.normalized()
+	MouseSphere_world_pos = MouseSphere.global_transform.origin
 	
 	var t = delta * rotationSpeed
 	
 	ForwardVector.x = 0.0
 	MouseSphere_world_pos.x = 0.0
 	
-	ForwardVector = ForwardVector.slerp(MouseSphere_world_pos, t)
+	ForwardVector = ForwardVector.lerp(MouseSphere_world_pos, 1)
 	
 	var start: Vector3 = get_parent().global_transform.origin
-	var end = start + (ForwardVector * 0.5) # 3 units forward in local space
+	var end = start + (ForwardVector) 
 	
-	vectorMesh.surface_add_vertex(start)
+	var velocityVec: Vector3 = end - start
+	emit_signal("fedVecUpdated", velocityVec)
+	
+	# make sure current object matches parent position:
+	global_transform.origin = start
+	
+	#Pass in Vector3(0, 0, 0) since immediate mesh is local to current node, so if we wnat from the origin, we always pass zero
+	vectorMesh.surface_add_vertex(Vector3(0, 0, 0))
 
-	vectorMesh.surface_add_vertex(end)
+	vectorMesh.surface_add_vertex(to_local(end))
 	
 	vectorMesh.surface_end()
 	#self.mesh = vectorMesh

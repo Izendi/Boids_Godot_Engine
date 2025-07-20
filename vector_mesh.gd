@@ -21,10 +21,14 @@ func _physics_process(_delta):
 	MouseSphere_world_pos = MouseSphere.global_transform.origin
 	
 	var start: Vector3 = get_parent().global_transform.origin
-	var end = start + (MouseSphere_world_pos.normalized() * 0.5) # 3 units forward in local space
+	var end = MouseSphere_world_pos - start
 	
-	vectorMesh.surface_add_vertex(start)
-	vectorMesh.surface_add_vertex(end)
+	var finalPoint = end.normalized()
+	
+	global_transform.origin = start
+	
+	vectorMesh.surface_add_vertex(Vector3(0, 0, 0))
+	vectorMesh.surface_add_vertex(finalPoint * 3.0)
 	
 	vectorMesh.surface_end()
 	self.mesh = vectorMesh

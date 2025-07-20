@@ -1,6 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://b1bdq31bmt0aj"]
+[gd_scene load_steps=14 format=3 uid="uid://b1bdq31bmt0aj"]
 
 [ext_resource type="PackedScene" uid="uid://cd6bhy8pe3o72" path="res://boid_master.tscn" id="1_83res"]
+[ext_resource type="PackedScene" uid="uid://63oy5jdkj5n6" path="res://boid.tscn" id="1_jfwh7"]
+[ext_resource type="Script" uid="uid://2bhdm2av4gy0" path="res://area_3d_signal.gd" id="2_57fq0"]
 [ext_resource type="Script" uid="uid://b2x4rvidalguo" path="res://mouse_capture.gd" id="2_jeqo5"]
 [ext_resource type="Shader" uid="uid://pvlscw6weac5" path="res://MouseSphere.gdshader" id="5_83res"]
 [ext_resource type="Script" uid="uid://ch3dblwq8rpu3" path="res://BoidDataStruct.gd" id="7_jfwh7"]
@@ -29,8 +31,16 @@ size = Vector3(1, 1, 6)
 
 [node name="Main" type="Node" parent="."]
 
+[node name="boid" parent="Main" instance=ExtResource("1_jfwh7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 2)
+
 [node name="Boid_Master" parent="Main" node_paths=PackedStringArray("MouseSphere") instance=ExtResource("1_83res")]
 MouseSphere = NodePath("../MouseSphere")
+
+[node name="Area3D" parent="Main/Boid_Master" index="4"]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("2_57fq0")
 
 [node name="MouseCapture" type="Node3D" parent="Main" node_paths=PackedStringArray("mouseSphere", "camera")]
 script = ExtResource("2_jeqo5")
