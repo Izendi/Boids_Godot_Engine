@@ -31,10 +31,16 @@ size = Vector3(1, 1, 6)
 
 [node name="Main" type="Node" parent="."]
 
+[node name="boid2" parent="Main" instance=ExtResource("1_jfwh7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 2)
+areaName = "boid_2"
+
 [node name="boid" parent="Main" instance=ExtResource("1_jfwh7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 2)
+areaName = "Boid_0"
 
 [node name="Boid_Master" parent="Main" node_paths=PackedStringArray("MouseSphere") instance=ExtResource("1_83res")]
+motion_mode = 1
 MouseSphere = NodePath("../MouseSphere")
 
 [node name="Area3D" parent="Main/Boid_Master" index="4"]
@@ -106,4 +112,5 @@ script = ExtResource("7_jfwh7")
 [node name="Payload" type="Node" parent="Main/Global_Script_Data"]
 script = ExtResource("8_qdcu6")
 
+[editable path="Main/boid"]
 [editable path="Main/Boid_Master"]

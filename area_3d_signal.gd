@@ -3,6 +3,8 @@ extends Area3D
 signal on_boid_enter_domain(nearbyArea: Area3D) #declare signal
 signal on_boid_exit_domain(nearbyArea: Area3D)
 
+var areaName: String
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	area_entered.connect(_on_boid_enter)

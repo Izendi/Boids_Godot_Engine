@@ -14,15 +14,27 @@ extends CharacterBody3D
 
 var forwardVector: Vector3 = Vector3(0.0, 0.0, 0.0)
 
+var isInArea: bool = false
+
 var area3D_Node
+
+var fwv: Vector3 = Vector3(0.0, 0.0, 0.0)
+
+var area_map: Dictionary = {}
 
 signal nearbyBoidDetected
 
 func _on_area_entered(area: Area3D):
+	area_map[area.areaName] = area
+	isInArea = true
 	surface_color = Vector3(1.0, 1.0, 1.0)
 
 func _on_area_exited(area: Area3D):
-	surface_color = Vector3(0.5, 0.1, 0.1)
+	area_map.erase(area.areaName)
+	if(area_map.is_empty()):
+		isInArea = false
+		surface_color = Vector3(0.5, 0.1, 0.1)
+	
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -41,6 +53,11 @@ func _on_fwdVec_updated(fwdVec: Vector3):
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
+	
+	if(isInArea):
+		for value in area_map.values():
+			value.get_parent().get_node("forwardVector").velocityVec = fwv
+	
 	shader_mat.set_shader_parameter("sphere_center", global_transform.origin)
 	
 	lightDir = lightDir.rotated(Vector3.UP, deg_to_rad(1))
@@ -48,7 +65,7 @@ func _physics_process(delta):
 	shader_mat.set_shader_parameter("light_dir", lightDir)
 	shader_mat.set_shader_parameter("surface_color", surface_color)
 	
-	var fwv: Vector3 = forwardVector
+	fwv = forwardVector
 	
 	# var delta_v = fwv * acceleration * delta
 	

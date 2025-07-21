@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://63oy5jdkj5n6"]
+[gd_scene load_steps=8 format=3 uid="uid://63oy5jdkj5n6"]
 
 [ext_resource type="Script" uid="uid://buge3kkcq61se" path="res://boid.gd" id="1_rwlh6"]
 [ext_resource type="Script" uid="uid://cbeh6aqnl5ugo" path="res://boid_area_sense.gd" id="1_xur1n"]
+[ext_resource type="Script" uid="uid://dcuffo4mfiitl" path="res://forward_vector.gd" id="2_dg2sk"]
 
 [sub_resource type="ORMMaterial3D" id="ORMMaterial3D_fg5l1"]
 albedo_color = Color(0, 0.761989, 0.76216, 1)
@@ -17,11 +18,15 @@ material = SubResource("ORMMaterial3D_fg5l1")
 script = ExtResource("1_rwlh6")
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="."]
+motion_mode = 1
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D"]
 transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
 mesh = SubResource("SphereMesh_xur1n")
 skeleton = NodePath("../..")
+
+[node name="forwardVector" type="MeshInstance3D" parent="CharacterBody3D"]
+script = ExtResource("2_dg2sk")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
 transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
